@@ -1,0 +1,16 @@
+{
+  "name": "modulrsa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "author": "Liz Cadena",
+  "license": "MIT",
+  "dependencies": {
+    "bigint-conversion": "^2.1.1",
+    "bigint-crypto-utils": "^2.5.0"
+  }
+}
