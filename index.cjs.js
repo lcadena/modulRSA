@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var bcu = require('bigint-crypto-utils');
-var bc = require('bigint-conversion');
+require('bigint-conversion');
 
 const _ONE = BigInt(1);
 
@@ -36,25 +36,80 @@ const rsaKeyGeneration = function (bitLenght  = 3072) {
 
     //Generar clave publica y privada
     const publicKey = new PublicKey(e, n);
-    const privateKey = new privateKey(d, n);
+    const privateKey = new PrivateKey(d, publicKey);
+
+    return {publicKey: publicKey, privateKey: privateKey}
 
 };
 
 /**
  * 
- * @param {number} m
- * @returns {bigint} 
+ * RSA publicKey class
+ * 
  */
-const encrypt = function (m) {
-    m = bc.textToBigint(m);
-    if (this.valVerify(m)) {
-        console.log('Message to encrypt > n');
-        return null
-    } else return bcu.modPow(m, this.e, this.n)
+const publicKey = class PublicKey {
+    /**
+     * 
+     * @param {bigint | number} e public exponent
+     * @param {bigint | number} n public modulus
+     */
+    constructor(e, n) {
+        this.e = BigInt(e);
+        this.n = BigInt(n);
+    }
+    
+    /**
+     * 
+     * @param {bigint} m messge to encrypt
+     * @returns {bigint|null} message encrypted
+     */
+    encrypt(m) {
+        return bcu.modPow(m, this.e, this.n)
+    }
 
+    /**
+     * 
+     * @param {binint} s signed message
+     * @returns {bigint} m bigint message
+     */
+    verify(s) {
+        return bcu.modPow(s, this.e, this.n)
+    }
+    
     //hacer la verificación con la firma
 };
 
-exports.encrypt = encrypt;
+/**
+ * 
+ * RSA privateKey class
+ * 
+ */
+const privateKey = class PrivateKey {
+    /**
+     * 
+     * @param {bigint | number} d private exponent
+     * @param {publicKey} publicKey
+     */
+    constructor(d, publicKey) {
+        this.d = BigInt(d);
+        this.publicKey = publicKey;
+    }
+
+    /**
+     * @param {binint} c signemessage
+     * @returns {bigint} m bigint message
+     */
+    decrypt(c) {
+        return bcu.modPow(c, this.d, this.publicKey.n);
+    }
+
+    sign() {
+        return bcu.modPow(m, this.d, this.publicKey.n)
+    }
+
+};
+
+exports.privateKey = privateKey;
+exports.publicKey = publicKey;
 exports.rsaKeyGeneration = rsaKeyGeneration;
 exports.twoModPow = twoModPow;
