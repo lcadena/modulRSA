@@ -1,7 +1,8 @@
-import { modPow, bitLenght, primeSync, modInv } from 'bigint-crypto-utils';
+import { modPow, bitLength, primeSync, modInv } from 'bigint-crypto-utils';
 import 'bigint-conversion';
 
 const _ONE = BigInt(1);
+const e = BigInt(65537);
 
 function _two() {
     return BigInt(2);
@@ -12,23 +13,29 @@ const twoModPow = function (exponent=BigInt(7), modulus = BigInt(5)) {
 };
 
 /**
+ * @typedef {Object} keys
+ * @property {PublicKey} publicKey - a RSA public key
+ * @property {PrivateKey} privateKey - the associated RSA private key
+ */
+
+/**
  * Generate the random keys of RSA
  * @param {number} bitLenght 
  */
-const rsaKeyGeneration = function (bitLenght$1  = 3072) {
-    let n, phi;
+const rsaKeyGeneration = function (bitLenght  = 3072) {
+    let p, q, n, phi;
 
     // Generate the public modulus n = p * q
     do {
-        this.p = primeSync(Math.round(bitLength / 2) + 1);
-        this.q = primeSync(Math.round(bitLength / 2));
-        this.n = this.p * this.q;
-
-        phi = (this.p - _ONE) * (this.q - _ONE);
-    } while (this.p === this.q || bitLenght(this.n) != bitLenght$1);
-
+        p = primeSync(Math.round(bitLenght / 2) + 1);
+        q = primeSync(Math.round(bitLenght / 2));
+        n = p * q;
+        
+    } while (p === q || bitLength(n) !== bitLenght);
+    
+    phi = (p - _ONE) * (q - _ONE);
     let e = BigInt(65537);
-    let d = modInv(this.e, this.phi);
+    let d = modInv(e, phi);
 
     //Generar clave publica y privada
     const publicKey = new PublicKey(e, n);
@@ -43,7 +50,7 @@ const rsaKeyGeneration = function (bitLenght$1  = 3072) {
  * RSA publicKey class
  * 
  */
-const publicKey = class PublicKey {
+const PublicKey = class PublicKey {
     /**
      * 
      * @param {bigint | number} e public exponent
@@ -65,14 +72,13 @@ const publicKey = class PublicKey {
 
     /**
      * 
-     * @param {binint} s signed message
+     * @param {bigint} s signed message
      * @returns {bigint} m bigint message
      */
     verify(s) {
         return modPow(s, this.e, this.n)
     }
     
-    //hacer la verificación con la firma
 };
 
 /**
@@ -80,11 +86,11 @@ const publicKey = class PublicKey {
  * RSA privateKey class
  * 
  */
-const privateKey = class PrivateKey {
+const PrivateKey = class PrivateKey {
     /**
      * 
      * @param {bigint | number} d private exponent
-     * @param {publicKey} publicKey
+     * @param {PublicKey} publicKey
      */
     constructor(d, publicKey) {
         this.d = BigInt(d);
@@ -92,17 +98,22 @@ const privateKey = class PrivateKey {
     }
 
     /**
-     * @param {binint} c signemessage
+     * @param {bigint} c sign message
      * @returns {bigint} m bigint message
      */
     decrypt(c) {
         return modPow(c, this.d, this.publicKey.n);
     }
-
-    sign() {
+    
+    /**
+     * 
+     * @param {bigint} m 
+     * @returns {bigint} s
+     */
+    sign(m) {
         return modPow(m, this.d, this.publicKey.n)
     }
 
 };
 
-export { privateKey, publicKey, rsaKeyGeneration, twoModPow };
+export { PrivateKey, PublicKey, rsaKeyGeneration, twoModPow };

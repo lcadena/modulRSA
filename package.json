@@ -1,16 +1,21 @@
 {
   "name": "modulrsa",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Modul RSA for encryption",
+  "main": "index.cjs.js",
+  "browser": "index.esm.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c && node build/build.dts.js"
   },
   "author": "Liz Cadena",
   "license": "MIT",
   "dependencies": {
     "bigint-conversion": "^2.1.1",
-    "bigint-crypto-utils": "^2.5.0"
+    "bigint-crypto-utils": "^2.5.0",
+    "rollup": "^2.0.6"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
   }
 }
