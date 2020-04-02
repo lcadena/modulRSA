@@ -3,12 +3,12 @@ export type keys = {
      * - a RSA public key
      */
     publicKey: {
-        e: any;
-        n: any;
+        e: bigint;
+        n: bigint;
         /**
          *
          * @param {bigint} m messge to encrypt
-         * @returns {bigint|null} message encrypted
+         * @returns {bigint} message encrypted
          */
         encrypt(m: bigint): bigint;
         /**
@@ -22,14 +22,14 @@ export type keys = {
      * - the associated RSA private key
      */
     privateKey: {
-        d: any;
+        d: bigint;
         publicKey: {
-            e: any;
-            n: any;
+            e: bigint;
+            n: bigint;
             /**
              *
              * @param {bigint} m messge to encrypt
-             * @returns {bigint|null} message encrypted
+             * @returns {bigint} message encrypted
              */
             encrypt(m: bigint): bigint;
             /**
@@ -59,12 +59,12 @@ export type keys = {
  */
 export const PrivateKey: {
     new (d: number | bigint, publicKey: {
-        e: any;
-        n: any;
+        e: bigint;
+        n: bigint;
         /**
          *
          * @param {bigint} m messge to encrypt
-         * @returns {bigint|null} message encrypted
+         * @returns {bigint} message encrypted
          */
         encrypt(m: bigint): bigint;
         /**
@@ -74,14 +74,14 @@ export const PrivateKey: {
          */
         verify(s: bigint): bigint;
     }): {
-        d: any;
+        d: bigint;
         publicKey: {
-            e: any;
-            n: any;
+            e: bigint;
+            n: bigint;
             /**
              *
              * @param {bigint} m messge to encrypt
-             * @returns {bigint|null} message encrypted
+             * @returns {bigint} message encrypted
              */
             encrypt(m: bigint): bigint;
             /**
@@ -111,12 +111,12 @@ export const PrivateKey: {
  */
 export const PublicKey: {
     new (e: number | bigint, n: number | bigint): {
-        e: any;
-        n: any;
+        e: bigint;
+        n: bigint;
         /**
          *
          * @param {bigint} m messge to encrypt
-         * @returns {bigint|null} message encrypted
+         * @returns {bigint} message encrypted
          */
         encrypt(m: bigint): bigint;
         /**
@@ -129,12 +129,12 @@ export const PublicKey: {
 };
 export function rsaKeyGeneration(bitLenght?: number): {
     publicKey: {
-        e: any;
-        n: any;
+        e: bigint;
+        n: bigint;
         /**
          *
          * @param {bigint} m messge to encrypt
-         * @returns {bigint|null} message encrypted
+         * @returns {bigint} message encrypted
          */
         encrypt(m: bigint): bigint;
         /**
@@ -145,14 +145,14 @@ export function rsaKeyGeneration(bitLenght?: number): {
         verify(s: bigint): bigint;
     };
     privateKey: {
-        d: any;
+        d: bigint;
         publicKey: {
-            e: any;
-            n: any;
+            e: bigint;
+            n: bigint;
             /**
              *
              * @param {bigint} m messge to encrypt
-             * @returns {bigint|null} message encrypted
+             * @returns {bigint} message encrypted
              */
             encrypt(m: bigint): bigint;
             /**
@@ -175,4 +175,4 @@ export function rsaKeyGeneration(bitLenght?: number): {
         sign(m: bigint): bigint;
     };
 };
-export function twoModPow(exponent?: any, modulus?: any): any;
+export function twoModPow(exponent?: bigint, modulus?: bigint): any;

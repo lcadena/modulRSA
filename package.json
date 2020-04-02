@@ -4,6 +4,7 @@
   "description": "Modul RSA for encryption",
   "main": "index.cjs.js",
   "browser": "index.esm.js",
+  "types": "types/modulrsa.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c && node build/build.dts.js"
@@ -11,6 +12,7 @@
   "author": "Liz Cadena",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^13.9.0",
     "bigint-conversion": "^2.1.1",
     "bigint-crypto-utils": "^2.5.0",
     "rollup": "^2.0.6"

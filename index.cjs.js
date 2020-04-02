@@ -24,7 +24,7 @@ const twoModPow = function (exponent=BigInt(7), modulus = BigInt(5)) {
 
 /**
  * Generate the random keys of RSA
- * @param {number} bitLenght 
+ * @param {number} bitLenght
  */
 const rsaKeyGeneration = function (bitLenght  = 3072) {
     let p, q, n, phi;
@@ -68,7 +68,7 @@ const PublicKey = class PublicKey {
     /**
      * 
      * @param {bigint} m messge to encrypt
-     * @returns {bigint|null} message encrypted
+     * @returns {bigint} message encrypted
      */
     encrypt(m) {
         return bcu.modPow(m, this.e, this.n)
